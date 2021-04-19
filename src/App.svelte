@@ -1,7 +1,7 @@
 <script>
 </script>
 
-<main class="md:flex sm:w-full">
+<main class="md:flex justify-center w-full p-8 box-border">
   <div>
     <h1 class="text-center">Passphrase Generator</h1>
     <div class="flex flex-col bg-gray-100 rounded-lg shadow-lg p-8 mt-4">
@@ -21,9 +21,3 @@
     </div>
   </div>
 </main>
-
-<style global lang="postcss">
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
-</style>
