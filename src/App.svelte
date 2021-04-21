@@ -8891,16 +8891,17 @@
     <div class="info-text margin-top-big">
       <h3 class="text-center">Is it secure?</h3>
       <p>
-        It should be, but I am not expert, so I cannot guarantee anything. Use
-        at your own risk. Generating the password is safe, but I cannot
-        guarantee that the generated password is any good.
+        It should be, but I am no expert, so I cannot guarantee anything. Use at
+        your own risk. Generating the password is safe, but I cannot guarantee
+        that the generated password is any good.
       </p>
       <h3 class="text-center">How are passwords generated?</h3>
       <p>
         Words are randomly choosen from list of about 8000 common english words.
         Everything is done on the client side, and the generated passwords will
         never leave your browser. Adding the capital letter and a number is just
-        there so websites stop complaining that the is 'not secure enough'.
+        there so websites stop complaining that the password is 'not secure
+        enough'.
       </p>
     </div>
   </div>
