@@ -8847,9 +8847,9 @@
 </script>
 
 <main>
-  <h1>Passphrase Generator</h1>
+  <h1 class="headline text-center">Passphrase Generator</h1>
   <div class="main-box">
-    <input type="text" class="full-width margin-top-big" value={passphrase} />
+    <input type="text" class="full-width" value={passphrase} />
     <div class="option-grid">
       <label for="word-count">Words</label>
       <select bind:value={wordCount} id="word-count">
@@ -8872,7 +8872,31 @@
     >
   </div>
 
-  <div class="bottom-right">
+  <div class="info-text margin-top-big">
+    <h2 class="text-center">Is it secure?</h2>
+    <p>
+      It should be, but I am not expert, so I cannot guarantee anything. Use at
+      your own risk. Generating the password is safe, but I cannot guarantee
+      that the generated password is any good.
+    </p>
+    <h3 class="text-center">How are passwords generated?</h3>
+    <p>
+      Words are randomly choosen from list of about 8000 common english words.
+      Everything is done on the client side, and the generated passwords will
+      never leave your browser. Adding the capital letter and a number is just
+      there so websites stop complaining that the is 'not secure enough'.
+    </p>
+  </div>
+
+  <div class="bottom-right misc-info">
+    <a href="https://github.com/murermader/passphrase-generator">
+      <img
+        width="24px"
+        height="24px"
+        src="img/github-logo.png"
+        alt="Github Repository"
+      />
+    </a>
     <a
       href="datenschutz.html"
       class="absolute bottom-0 right-0 p-2 text-gray-500"
@@ -8898,20 +8922,42 @@
     font-family: "Inter", sans-serif;
   }
 
-  main h1 {
+  .margin-top-big {
+    margin-top: 16px;
+  }
+
+  .margin-top-small {
+    margin-top: 8px;
+  }
+
+  .headline {
     font-family: "Arvo", serif;
-    font-style: normal;
-    font-weight: 700;
+  }
+
+  .text-center {
+    text-align: center;
   }
 
   .main-box {
     padding: 16px;
+    max-width: 500px;
     background-color: #f1f1f1;
     border-radius: 5px;
     border: 1px solid #c9c9c9;
 
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
       var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  }
+
+  .info-text {
+    margin-top: 18px;
+    max-width: 510px;
+    color: #7a7a7a;
+  }
+
+  .info-text p {
+    text-align: justify;
+    line-height: 1.25em;
   }
 
   .option-grid {
@@ -8953,6 +8999,11 @@
     outline-color: #236bd7;
   }
 
+  .misc-info {
+    display: flex;
+    align-items: center;
+  }
+
   .bottom-right {
     position: absolute;
     bottom: 0;
@@ -8963,5 +9014,9 @@
 
   a {
     color: #a3a3a3;
+  }
+
+  img {
+    margin-right: 4px;
   }
 </style>
