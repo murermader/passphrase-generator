@@ -8846,49 +8846,66 @@
   generatePassphrase();
 </script>
 
-<main>
-  <h1 class="headline text-center">Passphrase Generator</h1>
-  <div class="main-box">
-    <input type="text" class="full-width" value={passphrase} />
-    <div class="option-grid">
-      <label for="word-count">Words</label>
-      <select bind:value={wordCount} id="word-count">
-        {#each possibleWordCounts as wordCount (wordCount)}
-          <option class={wordCount}>{wordCount}</option>
-        {/each}
-      </select>
+<main class="space-between">
+  <div class="content">
+    <h1 class="headline text-center">Passphrase Generator</h1>
+    <div class="main-box">
+      <input type="text" class="full-width" value={passphrase} />
+      <div class="option-grid">
+        <label for="word-count">Words</label>
+        <select bind:value={wordCount} id="word-count">
+          {#each possibleWordCounts as wordCount (wordCount)}
+            <option class={wordCount}>{wordCount}</option>
+          {/each}
+        </select>
 
-      <label for="separation-char">Separation character</label>
-      <input maxlength="1" type="text" bind:value={separationChar} />
+        <label for="separation-char">Separation character</label>
+        <input
+          id="separation-char"
+          maxlength="1"
+          type="text"
+          bind:value={separationChar}
+        />
 
-      <label for="starts-with-capital">Starts with capital</label>
-      <input bind:checked={startsWithCapital} type="checkbox" class="m-0 p-0" />
+        <label for="starts-with-capital">Starts with capital</label>
+        <input
+          bind:checked={startsWithCapital}
+          id="starts-with-capital"
+          type="checkbox"
+          class="m-0 p-0"
+        />
 
-      <label for="starts-with-capital">Ends with number</label>
-      <input bind:checked={appendNumber} type="checkbox" class="m-0 p-0" />
+        <label for="ends-with-number">Ends with number</label>
+        <input
+          bind:checked={appendNumber}
+          id="ends-with-number"
+          type="checkbox"
+          class="m-0 p-0"
+        />
+      </div>
+      <button on:click={generatePassphrase} class="full-width"
+        >New Password</button
+      >
     </div>
-    <button on:click={generatePassphrase} class="full-width"
-      >New Password</button
-    >
+
+    <div class="info-text margin-top-big">
+      <h3 class="text-center">Is it secure?</h3>
+      <p>
+        It should be, but I am not expert, so I cannot guarantee anything. Use
+        at your own risk. Generating the password is safe, but I cannot
+        guarantee that the generated password is any good.
+      </p>
+      <h3 class="text-center">How are passwords generated?</h3>
+      <p>
+        Words are randomly choosen from list of about 8000 common english words.
+        Everything is done on the client side, and the generated passwords will
+        never leave your browser. Adding the capital letter and a number is just
+        there so websites stop complaining that the is 'not secure enough'.
+      </p>
+    </div>
   </div>
 
-  <div class="info-text margin-top-big">
-    <h2 class="text-center">Is it secure?</h2>
-    <p>
-      It should be, but I am not expert, so I cannot guarantee anything. Use at
-      your own risk. Generating the password is safe, but I cannot guarantee
-      that the generated password is any good.
-    </p>
-    <h3 class="text-center">How are passwords generated?</h3>
-    <p>
-      Words are randomly choosen from list of about 8000 common english words.
-      Everything is done on the client side, and the generated passwords will
-      never leave your browser. Adding the capital letter and a number is just
-      there so websites stop complaining that the is 'not secure enough'.
-    </p>
-  </div>
-
-  <div class="bottom-right misc-info">
+  <div class="misc-info">
     <a href="https://github.com/murermader/passphrase-generator">
       <img
         width="24px"
@@ -8897,11 +8914,7 @@
         alt="Github Repository"
       />
     </a>
-    <a
-      href="datenschutz.html"
-      class="absolute bottom-0 right-0 p-2 text-gray-500"
-      >Datenschutzerklärung & Haftungsauschluss</a
-    >
+    <a href="datenschutz.html">Datenschutzerklärung & Haftungsauschluss</a>
   </div>
 </main>
 
@@ -8915,11 +8928,23 @@
 
   main {
     box-sizing: border-box;
+    height: 100%;
+  }
+
+  .content {
+    box-sizing: border-box;
     flex-direction: column;
     display: flex;
     align-items: center;
     margin: 20px;
     font-family: "Inter", sans-serif;
+  }
+
+  .space-between {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .margin-top-big {
@@ -8952,7 +8977,7 @@
   .info-text {
     margin-top: 18px;
     max-width: 510px;
-    color: #7a7a7a;
+    color: #757575;
   }
 
   .info-text p {
@@ -8985,7 +9010,7 @@
   }
 
   button:hover {
-    opacity: 0.9;
+    opacity: 0.8;
   }
 
   input[type="checkbox"] {
@@ -8999,9 +9024,20 @@
     outline-color: #236bd7;
   }
 
+  label {
+    padding-right: 16px;
+  }
+
   .misc-info {
+    margin-top: auto;
     display: flex;
     align-items: center;
+  }
+
+  @media only screen and (min-width: 600px) {
+    .misc-info {
+      align-self: flex-end;
+    }
   }
 
   .bottom-right {
