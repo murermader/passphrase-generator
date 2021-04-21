@@ -8876,7 +8876,7 @@
     <a
       href="datenschutz.html"
       class="absolute bottom-0 right-0 p-2 text-gray-500"
-      >Datenschutzerklärung</a
+      >Datenschutzerklärung & Haftungsauschluss</a
     >
   </div>
 </main>
@@ -8893,18 +8893,22 @@
     box-sizing: border-box;
     flex-direction: column;
     display: flex;
-    justify-content: center;
+    align-items: center;
     margin: 20px;
+    font-family: "Inter", sans-serif;
   }
 
   main h1 {
-    text-align: center;
+    font-family: "Arvo", serif;
+    font-style: normal;
+    font-weight: 700;
   }
 
   .main-box {
-    padding: 8px;
+    padding: 16px;
     background-color: #f1f1f1;
     border-radius: 5px;
+    border: 1px solid #c9c9c9;
 
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
       var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
@@ -8925,13 +8929,28 @@
   }
 
   button {
-    padding: 6px 0px 6px 0px;
+    padding: 8px 0px 8px 0px;
     margin: 16px 0px 0px 0px;
+    background-color: #236bd7;
+    color: white;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    transition: opacity 50ms;
+  }
+
+  button:hover {
+    opacity: 0.9;
   }
 
   input[type="checkbox"] {
     margin: 0px;
     padding: 0px;
+  }
+
+  input[type="text"],
+  select {
+    border-radius: 5px;
+    outline-color: #236bd7;
   }
 
   .bottom-right {
