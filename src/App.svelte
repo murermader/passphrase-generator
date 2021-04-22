@@ -8843,6 +8843,12 @@
     }
   }
 
+  function copyPassphrase() {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(passphrase);
+    }
+  }
+
   generatePassphrase();
 </script>
 
@@ -8850,7 +8856,23 @@
   <div class="content">
     <h1 class="headline text-center">Passphrase Generator</h1>
     <div class="main-box">
-      <input type="text" class="full-width" value={passphrase} />
+      <div class="full-width passphrase-row">
+        <input type="text" class="full-width" value={passphrase} />
+        <svg
+          class="copy-icon disable-selection"
+          on:click={copyPassphrase}
+          width="24px"
+          height="24px"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 448 512"
+        >
+          <!-- Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) -->
+          <path
+            d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"
+          />
+        </svg>
+      </div>
+
       <div class="option-grid">
         <label for="word-count">Words</label>
         <select bind:value={wordCount} id="word-count">
@@ -8872,7 +8894,7 @@
           bind:checked={startsWithCapital}
           id="starts-with-capital"
           type="checkbox"
-          class="m-0 p-0"
+          class="m-0 p-0 disable-selection"
         />
 
         <label for="ends-with-number">Ends with number</label>
@@ -8880,10 +8902,10 @@
           bind:checked={appendNumber}
           id="ends-with-number"
           type="checkbox"
-          class="m-0 p-0"
+          class="m-0 p-0 disable-selection"
         />
       </div>
-      <button on:click={generatePassphrase} class="full-width"
+      <button on:click={generatePassphrase} class="full-width disable-selection"
         >New Password</button
       >
     </div>
@@ -8912,6 +8934,7 @@
         width="24px"
         height="24px"
         src="img/github-logo.png"
+        class="github-mark"
         alt="Github Repository"
       />
     </a>
@@ -8973,6 +8996,21 @@
 
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
       var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  }
+
+  .passphrase-row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .copy-icon {
+    fill: #236bd7;
+    margin: 4px 0px 0px 8px;
+    cursor: pointer;
+  }
+
+  .copy-icon:hover {
+    opacity: 0.8;
   }
 
   .info-text {
@@ -9053,7 +9091,11 @@
     color: #a3a3a3;
   }
 
-  img {
+  .github-mark {
     margin-right: 4px;
+  }
+
+  .disable-selection {
+    user-select: none;
   }
 </style>
