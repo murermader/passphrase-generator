@@ -1,4 +1,6 @@
 <script>
+  import Switch from "./Switch.svelte";
+
   document.title = "Passphrase Generator";
 
   let wordlist = [
@@ -8822,6 +8824,9 @@
   let passphrase = "";
 
   function generatePassphrase() {
+    console.log("startsWithCapital: " + startsWithCapital);
+    console.log("appendNumber: " + appendNumber);
+
     passphrase = "";
     for (let i = 0; i < wordCount; i++) {
       let word = wordlist[Math.floor(Math.random() * wordlist.length)];
@@ -8890,20 +8895,14 @@
         />
 
         <label for="starts-with-capital">Starts with capital</label>
-        <input
-          bind:checked={startsWithCapital}
-          id="starts-with-capital"
-          type="checkbox"
-          class="m-0 p-0 disable-selection"
+        <Switch
+          class="align-left"
+          bind:isChecked={startsWithCapital}
+          id={"starts-with-capital"}
         />
 
         <label for="ends-with-number">Ends with number</label>
-        <input
-          bind:checked={appendNumber}
-          id="ends-with-number"
-          type="checkbox"
-          class="m-0 p-0 disable-selection"
-        />
+        <Switch bind:isChecked={appendNumber} id={"ends-with-number"} />
       </div>
       <button on:click={generatePassphrase} class="full-width disable-selection"
         >New Password</button
@@ -8948,6 +8947,10 @@
       0 10px 10px -5px rgba(0, 0, 0, 0.04);
     --tw-ring-offset-shadow: 0 0 #0000;
     --tw-ring-shadow: 0 0 #0000;
+  }
+
+  .align-left {
+    align-self: start;
   }
 
   main {
@@ -9050,11 +9053,6 @@
 
   button:hover {
     opacity: 0.8;
-  }
-
-  input[type="checkbox"] {
-    margin: 0px;
-    padding: 0px;
   }
 
   input[type="text"],
