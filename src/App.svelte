@@ -8910,12 +8910,6 @@
     </div>
 
     <div class="info-text margin-top-big">
-      <h3 class="text-center">Is it secure?</h3>
-      <p>
-        It should be, but I am no expert, so I cannot guarantee anything. Use at
-        your own risk. Generating the password is safe, but I cannot guarantee
-        that the generated password is any good.
-      </p>
       <h3 class="text-center">How are passwords generated?</h3>
       <p>
         Words are randomly choosen from list of about 8000 common english words.
@@ -8947,6 +8941,12 @@
       0 10px 10px -5px rgba(0, 0, 0, 0.04);
     --tw-ring-offset-shadow: 0 0 #0000;
     --tw-ring-shadow: 0 0 #0000;
+  }
+
+  * {
+    /* Macht den Text ein bisschen schöner. https://devhints.io/css-antialias */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   .align-left {
