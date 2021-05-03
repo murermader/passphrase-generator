@@ -8824,9 +8824,6 @@
   let passphrase = "";
 
   function generatePassphrase() {
-    console.log("startsWithCapital: " + startsWithCapital);
-    console.log("appendNumber: " + appendNumber);
-
     passphrase = "";
     for (let i = 0; i < wordCount; i++) {
       let word = wordlist[Math.floor(Math.random() * wordlist.length)];
