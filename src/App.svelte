@@ -8988,7 +8988,7 @@
   }
 
   .main-box {
-    padding: 16px;
+    padding: 24px;
     max-width: 500px;
     background-color: #f1f1f1;
     border-radius: 5px;
@@ -9007,10 +9007,12 @@
     fill: #236bd7;
     margin: 4px 0px 0px 8px;
     cursor: pointer;
+    transition: transform 50ms ease-in-out;
   }
 
   .copy-icon:hover {
-    opacity: 0.8;
+    transform: scale(1.1);
+    opacity: 0.9;
   }
 
   .info-text {
@@ -9046,10 +9048,14 @@
     border-radius: 5px;
     border: 1px solid transparent;
     transition: opacity 50ms;
+    cursor: pointer;
+    transition: transform 50ms ease-in-out;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 8%);
   }
 
   button:hover {
-    opacity: 0.8;
+    transform: scale(1.03);
+    opacity: 0.9;
   }
 
   input[type="text"],
