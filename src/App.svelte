@@ -8855,8 +8855,8 @@
 
     return {
       wordCount : possibleWordCounts[getRandomInt(0, possibleWordCounts.length -1)],
-      includeCapital: Math.random() < 0.5,
-      includeNumber: Math.random() < 0.5,
+      includeCapital: getRandomBool(),
+      includeNumber: getRandomBool(),
       separationChar: initialRandomSeparationChars.charAt(getRandomInt(0, initialRandomSeparationChars.length -1))
     }
   }
@@ -8867,7 +8867,7 @@
 
     // Zufällige Wörter wählen
     for (let i = 0; i < wordCount; i++) {
-      let word = wordlist[Math.floor(Math.random() * wordlist.length)];
+      let word = wordlist[getRandomInt(0, wordlist.length - 1)];
       words.push(word);
     }
 
@@ -8901,8 +8901,7 @@
       const randomNumber = getRandomInt(0, 99);
       let wordWithNumber;
 
-      // 50/50
-      if(Math.random() < 0.5){
+      if(getRandomBool()){
         wordWithNumber = randomNumber.toString() + word;
       } else {
         wordWithNumber = word + randomNumber.toString();
@@ -8921,9 +8920,20 @@
   }
 
   function getRandomInt(min, max) {
-    // Von hier: https://stackoverflow.com/a/7228322
+    // Gibt eine (kryptografisch) zufällige Zahl zurück.
     // Info: Inklusive min & max
-    return Math.floor(Math.random() * (max - min + 1) + min)
+    return Math.floor(randomNumberBetweenZeroAndOne() * (max - min + 1) + min);
+
+    function randomNumberBetweenZeroAndOne() {
+      const crypto = window.crypto || window.msCrypto;
+
+      // (Math.pow(2,32)-1) = 4294967295
+      return crypto.getRandomValues(new Uint32Array(1))[0] / 4294967295;
+    }
+  }
+
+  function getRandomBool(){
+    return getRandomInt(0, 1) === 1;
   }
 
   function randomizeSettings() {
@@ -8942,7 +8952,7 @@
     <h1 class="headline text-center">Passphrase Generator</h1>
     <div class="main-box">
       <div class="full-width passphrase-row">
-        <input type="text" class="full-width" value={passphrase} />
+        <input id="passphrase-textbox" type="text" class="full-width" value={passphrase} />
         <svg
           class="copy-icon disable-selection"
           on:click={copyPassphrase}
@@ -8982,7 +8992,7 @@
         />
 
         <label for="ends-with-number">Include number</label>
-        <Switch bind:isChecked={includeNumber} id="ends-with-number"} />
+        <Switch bind:isChecked={includeNumber} id={"ends-with-number"} />
       </div>
       <button on:click={generatePassphrase} class="full-width disable-selection"
         >New Password</button
@@ -8998,8 +9008,11 @@
         Words are randomly chosen from list of about 8000 common english words.
         Everything is done on the client side, and the generated passwords will
         never leave your browser. The generated passwords should be safe, even if
-        someone knows that the password was generated with this website.
+        the attacker knows that the password was generated with this website.
         No safety guarantee, use at your own risk.
+        <br>
+        <br>
+        Check out <a target="_blank" rel="noopener noreferrer" href="https://www.useapassphrase.com/">Use a Passphrase</a> for more information on passphrases.
       </p>
     </div>
   </div>
@@ -9122,6 +9135,10 @@
   .info-text p {
     text-align: justify;
     line-height: 1.5;
+  }
+
+  .info-text a {
+    color: #236AD7;
   }
 
   .option-grid {
