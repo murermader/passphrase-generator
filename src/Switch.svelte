@@ -49,6 +49,13 @@
     transition: background-color 0.25s ease;
   }
 
+  @media (prefers-color-scheme: dark) {
+    label::before {
+      background-color: #292A28;
+      border: 1px solid black;
+    }
+  }
+
   label::after {
     top: 0;
     left: 0;
@@ -59,6 +66,12 @@
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.45);
     -webkit-transition: left 0.25s ease;
     transition: left 0.25s ease;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    label::after {
+      background-color: #EEEEED;
+    }
   }
 
   /* Diese 2 Regeln sind komisch: https://css-tricks.com/almanac/selectors/c/checked/ */

@@ -8949,6 +8949,11 @@
 
 <main class="space-between">
   <div class="content">
+    <div>
+      <svg class="lock-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+        <path d="M80 192v-48C80 64.47 144.5 0 224 0s144 64.47 144 144v48h16c35.3 0 64 28.7 64 64v192c0 35.3-28.7 64-64 64H64c-35.35 0-64-28.7-64-64V256c0-35.3 28.65-64 64-64h16zm64 0h160v-48c0-44.18-35.8-80-80-80s-80 35.82-80 80v48z"/>
+      </svg>
+    </div>
     <h1 class="headline text-center">Passphrase Generator</h1>
     <div class="main-box">
       <div class="full-width passphrase-row">
@@ -9018,15 +9023,7 @@
   </div>
 
   <div class="misc-info">
-    <a href="https://github.com/murermader/passphrase-generator">
-      <img
-        width="24px"
-        height="24px"
-        src="img/github-logo.png"
-        class="github-mark"
-        alt="Github Repository"
-      />
-    </a>
+    <a href="https://github.com/murermader/passphrase-generator">GitHub</a>
     <a href="datenschutz.html">Datenschutzerklärung & Haftungsauschluss</a>
   </div>
 </main>
@@ -9082,6 +9079,20 @@
     text-align: center;
   }
 
+  .lock-icon {
+    width: 32px;
+    height: 32px;
+    fill: #333334;
+    margin-top: 2.5em;
+    margin-bottom: -0.5em;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .lock-icon {
+      fill: #EEEEED;
+    }
+  }
+
   .main-box {
     padding: 24px;
     margin-top: 2em;
@@ -9094,6 +9105,13 @@
             var(--tw-ring-offset-shadow),
             var(--tw-ring-shadow),
             var(--tw-shadow);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .main-box {
+      background-color: #333333;
+      border: 1px solid #292929;
+    }
   }
 
   .help-text {
@@ -9130,6 +9148,12 @@
     margin-top: 3.5em;
     max-width: 510px;
     color: #757575;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .info-text {
+      color: #AAABA9;
+    }
   }
 
   .info-text p {
@@ -9180,30 +9204,30 @@
     outline-color: #236bd7;
   }
 
+  @media (prefers-color-scheme: dark) {
+    input[type="text"],
+    select {
+      color: #EEEEED;
+      background: #292929;
+      border: 1px solid black;
+    }
+  }
+
   label {
     padding-right: 16px;
   }
 
   .misc-info {
-    margin-top: auto;
+    margin-top: 5em;
     display: flex;
     align-items: center;
-  }
-
-  @media only screen and (min-width: 600px) {
-    .misc-info {
-      align-self: flex-end;
-    }
+    gap: 1em;
   }
 
   a {
     color: #a3a3a3;
   }
-
-  .github-mark {
-    margin-right: 4px;
-  }
-
+  
   .disable-selection {
     user-select: none;
   }
