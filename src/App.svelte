@@ -1,6 +1,5 @@
 <script>
   import Switch from "./Switch.svelte";
-
   document.title = "Passphrase Generator";
 
   let wordlist = [
@@ -8815,40 +8814,124 @@
     "configurations",
     "poison",
   ];
+  const possibleWordCounts = [3, 4, 5, 6];
+  const SETTINGS_KEY = "settings";
 
-  let wordCount = 4;
-  let startsWithCapital = true;
-  let appendNumber = true;
-  let separationChar = "-";
-  let possibleWordCounts = [3, 4, 5, 6];
+  let settings = loadSettings() ?? getDefaultSettings();
+
+  // Svelte Bindings
+  let wordCount = settings.wordCount;
+  let includeCapital = settings.includeCapital;
+  let includeNumber = settings.includeNumber;
+  let separationChar = settings.separationChar;
   let passphrase = "";
 
+  $: {
+    // Wenn sich eine der Svelte Variablen ändert, wird dieser Block
+    // hier ausgeführt.
+    settings.wordCount = wordCount;
+    settings.includeCapital = includeCapital;
+    settings.includeNumber = includeNumber;
+    settings.separationChar = separationChar;
+    saveSettings(settings);
+  }
+
+  function loadSettings(){
+    const storedSettings = localStorage.getItem(SETTINGS_KEY);
+
+    if(!storedSettings){
+      return null;
+    }
+    return JSON.parse(storedSettings);
+  }
+
+  function saveSettings(settings){
+    const settingsJson = JSON.stringify(settings);
+    localStorage.setItem(SETTINGS_KEY, settingsJson);
+  }
+
+  function getDefaultSettings(){
+    const initialRandomSeparationChars = "._-,[]{}*&ˆ%@#!)(?/<>:; "
+
+    return {
+      wordCount : possibleWordCounts[getRandomInt(0, possibleWordCounts.length -1)],
+      includeCapital: Math.random() < 0.5,
+      includeNumber: Math.random() < 0.5,
+      separationChar: initialRandomSeparationChars.charAt(getRandomInt(0, initialRandomSeparationChars.length -1))
+    }
+  }
+
   function generatePassphrase() {
+    const words = [];
     passphrase = "";
+
+    // Zufällige Wörter wählen
     for (let i = 0; i < wordCount; i++) {
       let word = wordlist[Math.floor(Math.random() * wordlist.length)];
-      passphrase += word;
+      words.push(word);
+    }
 
-      if (i != wordCount - 1) {
-        passphrase += separationChar;
+    // Zufälliges Wort bekommt einen Großbuchstaben an einer zufälligen Stelle
+    if (includeCapital) {
+      // Zufälliges Wort wählen
+      const wordIndex = getRandomInt(0, words.length - 1);
+      const word = words[wordIndex];
+      // Zufälliger Buchstabe
+      const charIndex = getRandomInt(0, word.length - 1);
+
+      let wordWithCapital = "";
+      for (let i = 0; i < word.length; i++) {
+        let character = word[i];
+
+        // Dieser Buchstabe soll groß geschrieben werden
+        if(i === charIndex){
+          character = character.toUpperCase();
+        }
+        wordWithCapital += character;
       }
+
+      // Wort in der Wortliste aktualisieren
+      words[wordIndex] = wordWithCapital;
     }
 
-    // Erster Buchstabe ist Großbuchstabe
-    if (startsWithCapital) {
-      passphrase = passphrase.charAt(0).toUpperCase() + passphrase.slice(1);
+    // Zufälliges Wort bekommt eine Zahl am Anfang oder am Ende
+    if (includeNumber) {
+      const wordIndex = getRandomInt(0, words.length - 1);
+      const word = words[wordIndex];
+      const randomNumber = getRandomInt(0, 99);
+      let wordWithNumber;
+
+      // 50/50
+      if(Math.random() < 0.5){
+        wordWithNumber = randomNumber.toString() + word;
+      } else {
+        wordWithNumber = word + randomNumber.toString();
+      }
+
+      words[wordIndex] = wordWithNumber;
     }
 
-    // Zahl zwischen 0 und 9 anhängen
-    if (appendNumber) {
-      passphrase += Math.floor(Math.random() * 9);
-    }
+    passphrase = words.join(separationChar);
   }
 
   function copyPassphrase() {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(passphrase);
     }
+  }
+
+  function getRandomInt(min, max) {
+    // Von hier: https://stackoverflow.com/a/7228322
+    // Info: Inklusive min & max
+    return Math.floor(Math.random() * (max - min + 1) + min)
+  }
+
+  function randomizeSettings() {
+    settings = getDefaultSettings();
+    wordCount = settings.wordCount;
+    includeCapital = settings.includeCapital;
+    includeNumber = settings.includeNumber;
+    separationChar = settings.separationChar;
   }
 
   generatePassphrase();
@@ -8891,19 +8974,22 @@
           bind:value={separationChar}
         />
 
-        <label for="starts-with-capital">Starts with capital</label>
+        <label for="starts-with-capital">Include capital</label>
         <Switch
           class="align-left"
-          bind:isChecked={startsWithCapital}
+          bind:isChecked={includeCapital}
           id={"starts-with-capital"}
         />
 
-        <label for="ends-with-number">Ends with number</label>
-        <Switch bind:isChecked={appendNumber} id={"ends-with-number"} />
+        <label for="ends-with-number">Include number</label>
+        <Switch bind:isChecked={includeNumber} id="ends-with-number"} />
       </div>
       <button on:click={generatePassphrase} class="full-width disable-selection"
         >New Password</button
       >
+      <p class="help-text">
+        Preferences are saved locally. <span on:click={randomizeSettings} class="click-here-to-randomize">Regenerate</span>.
+      </p>
     </div>
 
     <div class="info-text margin-top-big">
@@ -8911,9 +8997,10 @@
       <p>
         Words are randomly choosen from list of about 8000 common english words.
         Everything is done on the client side, and the generated passwords will
-        never leave your browser. Adding the capital letter and a number is just
-        there so websites stop complaining that the password is 'not secure
-        enough'.
+        never leave your browser. Even if an attacker knows that the password was
+        generated using this tool, it would still not be feasible to crack it,
+        as the number of possibilities + length of the password is too complex
+        to calculate. No guarantee though. Use at your own risk.
       </p>
     </div>
   </div>
@@ -8975,10 +9062,6 @@
     margin-top: 16px;
   }
 
-  .margin-top-small {
-    margin-top: 8px;
-  }
-
   .headline {
     font-family: "Arvo", serif;
   }
@@ -8989,13 +9072,29 @@
 
   .main-box {
     padding: 24px;
+    margin-top: 2em;
     max-width: 500px;
     background-color: #f1f1f1;
     border-radius: 5px;
     border: 1px solid #c9c9c9;
 
-    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
-      var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    box-shadow:
+            var(--tw-ring-offset-shadow),
+            var(--tw-ring-shadow),
+            var(--tw-shadow);
+  }
+
+  .help-text {
+    margin: 1.5em 0 0 0;
+    max-width: 300px;
+    color: #a2a2a2;
+    font-size: 0.8em;
+    user-select: none;
+  }
+
+  .click-here-to-randomize {
+    text-decoration: underline;
+    cursor: pointer;
   }
 
   .passphrase-row {
@@ -9005,7 +9104,7 @@
 
   .copy-icon {
     fill: #236bd7;
-    margin: 4px 0px 0px 8px;
+    margin: 4px 0 0 8px;
     cursor: pointer;
     transition: transform 50ms ease-in-out;
   }
@@ -9016,14 +9115,14 @@
   }
 
   .info-text {
-    margin-top: 18px;
+    margin-top: 3.5em;
     max-width: 510px;
     color: #757575;
   }
 
   .info-text p {
     text-align: justify;
-    line-height: 1.25em;
+    line-height: 1.5;
   }
 
   .option-grid {
@@ -9041,15 +9140,16 @@
   }
 
   button {
-    padding: 8px 0px 8px 0px;
-    margin: 16px 0px 0px 0px;
+    padding: 8px 0 8px 0;
+    margin: 16px 0 0 0;
     background-color: #236bd7;
     color: white;
     border-radius: 5px;
     border: 1px solid transparent;
-    transition: opacity 50ms;
     cursor: pointer;
-    transition: transform 50ms ease-in-out;
+    transition:
+            transform 50ms ease-in-out,
+            opacity 50ms ease-in-out;
     box-shadow: 0 4px 8px rgb(0 0 0 / 8%);
   }
 
@@ -9078,14 +9178,6 @@
     .misc-info {
       align-self: flex-end;
     }
-  }
-
-  .bottom-right {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    padding: 2px;
-    color: gray;
   }
 
   a {
