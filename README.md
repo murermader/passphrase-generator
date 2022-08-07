@@ -13,3 +13,5 @@ Simple passphrase generator made with Svelte.
 2. `npm install -g firebase-tools`
 3. `firebase login`
 4. `firebase deploy --only hosting`
+
+oder einfach `npm run deploy`, falls bereits eingeloggt
