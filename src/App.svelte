@@ -8995,12 +8995,11 @@
     <div class="info-text margin-top-big">
       <h3 class="text-center">How are passwords generated?</h3>
       <p>
-        Words are randomly choosen from list of about 8000 common english words.
+        Words are randomly chosen from list of about 8000 common english words.
         Everything is done on the client side, and the generated passwords will
-        never leave your browser. Even if an attacker knows that the password was
-        generated using this tool, it would still not be feasible to crack it,
-        as the number of possibilities + length of the password is too complex
-        to calculate. No guarantee though. Use at your own risk.
+        never leave your browser. The generated passwords should be safe, even if
+        someone knows that the password was generated with this website.
+        No safety guarantee, use at your own risk.
       </p>
     </div>
   </div>
