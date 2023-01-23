@@ -8914,9 +8914,10 @@
   }
 
   function copyPassphrase() {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(passphrase);
-    }
+    const passphraseInput = document.getElementById("passphrase-textbox");
+    passphraseInput.select();
+    passphraseInput.setSelectionRange(0, 99999);
+    document.execCommand('copy')
   }
 
   function getRandomInt(min, max) {
@@ -8957,7 +8958,7 @@
     <h1 class="headline text-center">Passphrase Generator</h1>
     <div class="main-box">
       <div class="full-width passphrase-row">
-        <input id="passphrase-textbox" type="text" class="full-width" value={passphrase} />
+        <input id="passphrase-textbox" type="text" class="full-width" spellcheck="false" value={passphrase} />
         <svg
           class="copy-icon disable-selection"
           on:click={copyPassphrase}
@@ -8972,6 +8973,10 @@
           />
         </svg>
       </div>
+      <div class="passphrase-length">
+        <span>Length: </span><span>{passphrase.length}</span>
+      </div>
+
 
       <div class="option-grid">
         <label for="word-count">Words</label>
@@ -9132,6 +9137,14 @@
     flex-direction: row;
   }
 
+  .passphrase-length {
+    font-size: 0.8rem;
+  }
+
+  .passphrase-length span:last-child {
+    font-weight: bold;
+  }
+
   .copy-icon {
     fill: #236bd7;
     margin: 4px 0 0 8px;
@@ -9167,7 +9180,7 @@
 
   .option-grid {
     display: grid;
-    margin-top: 8px;
+    margin-top: 1rem;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr;
     grid-gap: 2px;
@@ -9202,6 +9215,11 @@
   select {
     border-radius: 5px;
     outline-color: #236bd7;
+  }
+
+  input[type="text"]:focus-visible,
+  select:focus-visible {
+    outline: 2px solid #236bd7;
   }
 
   @media (prefers-color-scheme: dark) {
